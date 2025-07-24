@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Our Services | The Slowwman Company</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="Explore the innovative services offered by The Slowwman Company, where technology meets design to build the future.">
+  <meta name="keywords" content="Slowwman Services, Technology Solutions, Creative Branding, Business Strategy, Web Development, App Development">
+  <meta name="author" content="The Slowwman Company">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: #000;
+      color: #fff;
+      overflow-x: hidden;
+      text-align: center;
+      padding: 50px 20px;
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      max-width: 1000px;
+      margin: 40px auto;
+    }
+    .service-item {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(0,191,255,0.3);
+      padding: 20px;
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .service-item:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 0 20px #00bfff;
+    }
+    h2 {
+      color: #00bfff;
+    }
+    p {
+      color: #bbbbbb;
+    }
+    .clients {
+      margin-top: 10px;
+      color: #888;
+      font-size: 0.9rem;
+    }
+    button {
+      margin-top: 15px;
+      background: #00bfff;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    button:hover {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 0 10px #00bfff;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: #111;
+      padding: 30px;
+      border-radius: 10px;
+      border: 1px solid #00bfff;
+      max-width: 600px;
+      color: #fff;
+    }
+    .close {
+      float: right;
+      cursor: pointer;
+      font-size: 1.5rem;
+    }
+    a {
+      display: inline-block;
+      margin-top: 40px;
+      color: #00bfff;
+      font-weight: bold;
+      text-decoration: none;
+      border: 2px solid #00bfff;
+      padding: 10px 20px;
+      border-radius: 8px;
+    }
+    a:hover {
+      background: #00bfff;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+<canvas id="particle-canvas"></canvas>
+<h1>Our Services</h1>
+<div class="services-grid">
+  <div class="service-item">
+    <h2>Product Innovation</h2>
+    <p>Crafting the future through design-led technology.</p>
+    <div class="clients"></div>
+    <button onclick="openModal('innovation')">View More</button>
+  </div>
+  <div class="service-item">
+    <h2>Creative Branding</h2>
+    <p>Building iconic identities and immersive visuals.</p>
+    <div class="clients">Trusted by: SkillCraft</div>
+    <button onclick="openModal('branding')">View More</button>
+  </div>
+  <div class="service-item">
+    <h2>Technology Solutions</h2>
+    <p>Reliable platforms, smart apps, and cloud scale systems.</p>
+    <div class="clients">Trusted by: Securenest</div>
+    <button onclick="openModal('technology')">View More</button>
+  </div>
+  <div class="service-item">
+    <h2>Business Strategy</h2>
+    <p>Partnering to enable strategic transformation and growth.</p>
+    <div class="clients">Trusted by: Internal R&D</div>
+    <button onclick="openModal('strategy')">View More</button>
+  </div>
+</div>
+<div id="modal" class="modal" onclick="closeModal()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2 id="modal-title"></h2>
+    <p id="modal-desc"></p>
+  </div>
+</div>
+<a href="index.html">← Back to Home</a>
+<script>
+const modal = document.getElementById('modal');
+const modalTitle = document.getElementById('modal-title');
+const modalDesc = document.getElementById('modal-desc');
+const serviceContent = {
+  innovation: {
+    title: "Product Innovation",
+    desc: "We help companies turn abstract ideas into tangible, scalable digital products — blending human-centered design with emerging technologies to build solutions that shape the future."
+  },
+  branding: {
+    title: "Creative Branding",
+    desc: "We develop cohesive brand systems that include visual identity, storytelling, motion design, and web presence — built to stand out and resonate emotionally."
+  },
+  technology: {
+    title: "Technology Solutions",
+    desc: "Whether it's a fast-loading website, cloud-native SaaS, or AI-powered automation — we deliver secure, scalable, and beautiful solutions tailored to your goals."
+  },
+  strategy: {
+    title: "Business Strategy",
+    desc: "We work as your strategic partner to rethink positioning, product-market fit, innovation pipeline, and go-to-market strategies with clarity and impact."
+  }
+};
+function openModal(serviceKey) {
+  modalTitle.textContent = serviceContent[serviceKey].title;
+  modalDesc.textContent = serviceContent[serviceKey].desc;
+  modal.style.display = 'flex';
+}
+function closeModal() {
+  modal.style.display = 'none';
+}
+</script>
+<script>
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+let particlesArray;
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+class Particle {
+  constructor() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2 + 1;
+    this.speedX = (Math.random() - 0.5)*0.5;
+    this.speedY = (Math.random() - 0.5)*0.5;
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if (this.x < 0 || this.x > canvas.width) this.speedX = -this.speedX;
+    if (this.y < 0 || this.y > canvas.height) this.speedY = -this.speedY;
+  }
+  draw() {
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+function initParticles() {
+  particlesArray = [];
+  const numberOfParticles = (canvas.width * canvas.height) / 9000;
+  for (let i = 0; i < numberOfParticles; i++) {
+    particlesArray.push(new Particle());
+  }
+}
+function connectParticles() {
+  for (let a = 0; a < particlesArray.length; a++) {
+    for (let b = a; b < particlesArray.length; b++) {
+      let dx = particlesArray[a].x - particlesArray[b].x;
+      let dy = particlesArray[a].y - particlesArray[b].y;
+      let distance = Math.sqrt(dx * dx + dy * dy);
+      if (distance < 100) {
+        ctx.strokeStyle = 'rgba(255,255,255,' + (1 - distance / 100) + ')';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+        ctx.stroke();
+      }
+    }
+  }
+}
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particlesArray.forEach(p => {
+    p.update();
+    p.draw();
+  });
+  connectParticles();
+  requestAnimationFrame(animateParticles);
+}
+initParticles();
+animateParticles();
+</script>
+</body>
+</html>

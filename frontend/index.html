@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic SEO Meta Tags -->
+  <title>The Slowwman Company | Innovative Tech & Creative Solutions</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="The Slowwman Company offers futuristic technology solutions, creative services, and strategic consulting to build the future. Contact us today!">
+  <meta name="keywords" content="Slowwman, Tech Company, Creative Solutions, Future Design, Digital Innovation, Web Development, App Development, Branding">
+  <meta name="author" content="The Slowwman Company">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourdomain.com/">
+  <meta property="og:title" content="The Slowwman Company | Innovative Tech & Creative Solutions">
+  <meta property="og:description" content="The Slowwman Company offers futuristic technology solutions, creative services, and strategic consulting to build the future.">
+  <meta property="og:image" content="https://yourdomain.com/assets/slowwman-preview.jpg">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://yourdomain.com/">
+  <meta name="twitter:title" content="The Slowwman Company | Innovative Tech & Creative Solutions">
+  <meta name="twitter:description" content="The Slowwman Company offers futuristic technology solutions, creative services, and strategic consulting to build the future.">
+  <meta name="twitter:image" content="https://yourdomain.com/assets/slowwman-preview.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: #000;
+      overflow: hidden;
+      color: #fff;
+      text-align: center;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 3rem;
+      animation: fadeSlideIn 1.5s ease-out forwards;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #bbbbbb;
+      margin: 10px 0 30px;
+      animation: fadeSlideIn 2s ease-out forwards;
+    }
+
+    .links {
+      display: flex;
+      gap: 20px;
+      animation: fadeSlideIn 2.5s ease-out forwards;
+    }
+
+    a {
+      color: #00bfff;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: 2px solid #00bfff;
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+
+    a:hover {
+      background: #00bfff;
+      color: #000;
+      box-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+
+<canvas id="particle-canvas"></canvas>
+
+<h1>Welcome to The Slowwman Company</h1>
+<p>Building Future Technology and Creative Solutions.</p>
+
+<div class="links">
+  <a href="services.html">Services</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+  <a href="admin.html">Admin</a>
+</div>
+
+<script>
+// Particle Network Animation
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+let particlesArray;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+class Particle {
+  constructor() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2 + 1;
+    this.speedX = Math.random() * 1 - 0.5;
+    this.speedY = Math.random() * 1 - 0.5;
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if (this.x < 0 || this.x > canvas.width) this.speedX = -this.speedX;
+    if (this.y < 0 || this.y > canvas.height) this.speedY = -this.speedY;
+  }
+  draw() {
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function initParticles() {
+  particlesArray = [];
+  const numberOfParticles = (canvas.width * canvas.height) / 9000;
+  for (let i = 0; i < numberOfParticles; i++) {
+    particlesArray.push(new Particle());
+  }
+}
+
+function connectParticles() {
+  for (let a = 0; a < particlesArray.length; a++) {
+    for (let b = a; b < particlesArray.length; b++) {
+      let dx = particlesArray[a].x - particlesArray[b].x;
+      let dy = particlesArray[a].y - particlesArray[b].y;
+      let distance = Math.sqrt(dx * dx + dy * dy);
+      if (distance < 100) {
+        ctx.strokeStyle = 'rgba(255,255,255,' + (1 - distance / 100) + ')';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particlesArray.forEach(p => {
+    p.update();
+    p.draw();
+  });
+  connectParticles();
+  requestAnimationFrame(animateParticles);
+}
+
+initParticles();
+animateParticles();
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+    .then(registration => {
+      console.log('Service Worker registered with scope:', registration.scope);
+    })
+    .catch(error => {
+      console.log('Service Worker registration failed:', error);
+    });
+  }
+  </script>
+  
+</body>
+</html>

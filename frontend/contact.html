@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic SEO Meta Tags -->
+  <title>Contact Us | The Slowwman Company</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="Get in touch with The Slowwman Company for technology solutions, creative services, and business consulting. Let's innovate together!">
+  <meta name="keywords" content="Contact Slowwman, Tech Consulting, Web Development, Branding, Business Inquiry, Get in Touch">
+  <meta name="author" content="The Slowwman Company">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourdomain.com/contact.html">
+  <meta property="og:title" content="Contact Us | The Slowwman Company">
+  <meta property="og:description" content="Get in touch with The Slowwman Company for technology solutions, creative services, and business consulting. Let's innovate together!">
+  <meta property="og:image" content="https://yourdomain.com/assets/slowwman-preview.jpg">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://yourdomain.com/contact.html">
+  <meta name="twitter:title" content="Contact Us | The Slowwman Company">
+  <meta name="twitter:description" content="Get in touch with The Slowwman Company for technology solutions, creative services, and business consulting. Let's innovate together!">
+  <meta name="twitter:image" content="https://yourdomain.com/assets/slowwman-preview.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: #000;
+      color: #fff;
+      overflow-x: hidden;
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      animation: fadeSlideIn 1.5s ease-out forwards;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      max-width: 500px;
+      margin: 40px auto;
+      gap: 15px;
+      animation: fadeSlideIn 2s ease-out forwards;
+    }
+
+    input, textarea {
+      padding: 12px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid #00bfff;
+      color: #fff;
+      font-size: 1rem;
+      resize: none;
+      backdrop-filter: blur(5px);
+    }
+
+    button {
+      background: #00bfff;
+      color: #000;
+      border: none;
+      font-weight: bold;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.3s;
+    }
+
+    button:hover {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 30px;
+      color: #00bfff;
+      font-weight: bold;
+      text-decoration: none;
+      border: 2px solid #00bfff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+
+    a:hover {
+      background: #00bfff;
+      color: #000;
+      box-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 20;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.9);
+      padding: 30px;
+      border-radius: 12px;
+      border: 1px solid #00bfff;
+      text-align: center;
+    }
+
+    .modal h2 {
+      color: #00bfff;
+      margin-bottom: 10px;
+    }
+
+    .modal p {
+      color: #ccc;
+    }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+
+<canvas id="particle-canvas"></canvas>
+
+<h1>Contact Us</h1>
+
+<form id="contact-form">
+  <input type="text" name="name" placeholder="Your Name" required>
+  <input type="email" name="email" placeholder="Your Email" required>
+  <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+  <button type="submit">Send Message</button>
+</form>
+
+<div class="modal" id="thankYouModal">
+  <h2>Thank You!</h2>
+  <p>Your message has been sent. We'll get back to you soon!</p>
+</div>
+
+<a href="index.html">← Back to Home</a>
+
+<script>
+// Particle Network Animation
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+let particlesArray;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+class Particle {
+  constructor() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2 + 1;
+    this.speedX = (Math.random() - 0.5)*0.5;
+    this.speedY = (Math.random() - 0.5)*0.5;
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if (this.x < 0 || this.x > canvas.width) this.speedX = -this.speedX;
+    if (this.y < 0 || this.y > canvas.height) this.speedY = -this.speedY;
+  }
+  draw() {
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function initParticles() {
+  particlesArray = [];
+  const numberOfParticles = (canvas.width * canvas.height) / 9000;
+  for (let i = 0; i < numberOfParticles; i++) {
+    particlesArray.push(new Particle());
+  }
+}
+
+function connectParticles() {
+  for (let a = 0; a < particlesArray.length; a++) {
+    for (let b = a; b < particlesArray.length; b++) {
+      let dx = particlesArray[a].x - particlesArray[b].x;
+      let dy = particlesArray[a].y - particlesArray[b].y;
+      let distance = Math.sqrt(dx * dx + dy * dy);
+      if (distance < 100) {
+        ctx.strokeStyle = 'rgba(255,255,255,' + (1 - distance / 100) + ')';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particlesArray.forEach(p => {
+    p.update();
+    p.draw();
+  });
+  connectParticles();
+  requestAnimationFrame(animateParticles);
+}
+
+initParticles();
+animateParticles();
+
+// Form Submission Handler
+const form = document.getElementById('contact-form');
+const modal = document.getElementById('thankYouModal');
+
+form.addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const formData = {
+    name: this.name.value,
+    email: this.email.value,
+    message: this.message.value
+  };
+
+  try {
+    const response = await fetch('http://192.168.1.51:3000/contact', {
+
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+
+    if (response.ok) {
+      modal.style.display = 'block';
+      form.reset();
+      setTimeout(() => modal.style.display = 'none', 3000);
+    } else {
+      alert('Something went wrong. Please try again.');
+    }
+  } catch (error) {
+    alert('Failed to send message: ' + error.message);
+  }
+});
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+    .then(registration => {
+      console.log('Service Worker registered with scope:', registration.scope);
+    })
+    .catch(error => {
+      console.log('Service Worker registration failed:', error);
+    });
+  }
+  </script>
+  
+</body>
+</html>

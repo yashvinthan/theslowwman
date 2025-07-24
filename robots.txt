@@ -1,0 +1,6 @@
+# robots.txt for The Slowwman Company
+
+User-agent: *
+Allow: /
+
+Sitemap: https://theslowwman.space/sitemap.xml
